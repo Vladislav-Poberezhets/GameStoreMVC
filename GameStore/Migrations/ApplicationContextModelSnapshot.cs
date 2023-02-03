@@ -16,35 +16,161 @@ namespace GameStore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("GameStore.Models.Game", b =>
-                {
-                    b.Property<int>("GameId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            modelBuilder.Entity("GameStore.Models.Category", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GameId"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                b.HasKey("Id");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                b.ToTable("Categories");
+            });
 
-                    b.HasKey("GameId");
+            modelBuilder.Entity("GameStore.Models.Order", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    b.ToTable("Games");
-                });
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<string>("Address")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("CustomerName")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<bool>("Shipped")
+                    .HasColumnType("bit");
+
+                b.Property<string>("State")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("ZipCode")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("Id");
+
+                b.ToTable("Orders");
+            });
+
+            modelBuilder.Entity("GameStore.Models.OrderLine", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<int>("OrderId")
+                    .HasColumnType("int");
+
+                b.Property<int>("ProductId")
+                    .HasColumnType("int");
+
+                b.Property<int>("Quantity")
+                    .HasColumnType("int");
+
+                b.HasKey("Id");
+
+                b.HasIndex("OrderId");
+
+                b.HasIndex("ProductId");
+
+                b.ToTable("OrderLines");
+            });
+
+            modelBuilder.Entity("GameStore.Models.Product", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                b.Property<int>("CategoryId")
+                    .HasColumnType("int");
+
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<decimal>("PurchasePrice")
+                    .HasColumnType("decimal(18,2)");
+
+                b.Property<decimal>("RetailPrice")
+                    .HasColumnType("decimal(18,2)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("CategoryId");
+
+                b.ToTable("Products");
+            });
+
+            modelBuilder.Entity("GameStore.Models.OrderLine", b =>
+            {
+                b.HasOne("GameStore.Models.Order", "Order")
+                    .WithMany("Lines")
+                    .HasForeignKey("OrderId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("GameStore.Models.Product", "Product")
+                    .WithMany()
+                    .HasForeignKey("ProductId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("Order");
+
+                b.Navigation("Product");
+            });
+
+            modelBuilder.Entity("GameStore.Models.Product", b =>
+            {
+                b.HasOne("GameStore.Models.Category", "Category")
+                    .WithMany("Products")
+                    .HasForeignKey("CategoryId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("Category");
+            });
+
+            modelBuilder.Entity("GameStore.Models.Category", b =>
+            {
+                b.Navigation("Products");
+            });
+
+            modelBuilder.Entity("GameStore.Models.Order", b =>
+            {
+                b.Navigation("Lines");
+            });
 #pragma warning restore 612, 618
         }
     }
