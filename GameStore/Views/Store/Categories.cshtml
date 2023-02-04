@@ -11,15 +11,6 @@
     </div>
 
 
-    <div class="row no-gutters mt-4"></div>
-    <div class="row no-gutters">
-        <div class="col mt-1">
-            <button form="pageform" name="catoptions.currentPage" value="@(Model.CurrentPage - 1)" class="btn btn-block btn-outline-secondary
-@(Model.HasPreviousPage ? "disabled":"")" type="submit">
-                Назад
-            </button>
-        </div>
-    </div>
 
     @foreach (Category c in Model)
     {
@@ -32,12 +23,5 @@
                 </div>
             </div>
     }
-    <div class="row no-gutters">
-        <div class="col mt-1">
-            <button form="pageform" name="catoptions.currentPage" value="@(Model.CurrentPage + 1)"
-                    class="btn blockquote btn-outline-secondary @(!Model.HasNextPage? "disable" : "")" type="submit">
-                Вперед
-            </button>
-        </div>
-    </div>
+    
 </div>
