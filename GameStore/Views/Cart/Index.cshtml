@@ -25,26 +25,26 @@
         {
                     <div class="row mt-1">
                         <div class="col">@line.Quantity</div>
-                        <div class="col">@line.Game.Name</div>
-                        <div class="col text-right">@line.Game.Price.ToString("f2")</div>
+                        <div class="col">@line.Game.Name</div> 
+                        <div class="col text-right">@line.Game.Price</div>
                         <div class="col text-right">$@((line.Game.Price * line.Quantity).ToString("f2"))</div>
                         <div class="col">
                             <form asp-action="RemoveFromCart">
-                                <button type="submit" name="productId" value="@line.GameId"
+                                <button type="submit" name="GameId" value="@line.GameId"
                         class="btn btn-sm btn-outline-danger">
                                     Видалити
-                                </button>
+                                </button>   
                             </form>
                         </div>
-                    </div>
+                    </div> 
         }
     }
     <div class="row mt-2">
         <div class="col"></div>
         <div class="col"></div>
-        <div class="col text-right font-weight-bold">Всего:</div>
+        <div class="col text-right font-weight-bold">Всього:</div>
         <div class="col text-right font-weight-bold">
-            $@(Model.Selections.Sum(e => e.Game.Price * e.Quantity).ToString("f2"))
+            $@(Model.Selections.Sum(e => e.Game.Price * e.Quantity).ToString("f2")) 
         </div>
         <div class="col"></div>
     </div>
