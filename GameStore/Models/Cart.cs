@@ -18,7 +18,7 @@
                 selections.Add(new OrderLine
                 {
                     GameId = g.GameId,
-                    Game = g,
+                    Game = g,                 
                     Quantity = quantity
                 });
             }
