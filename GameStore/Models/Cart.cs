@@ -2,13 +2,14 @@
 {
     public class Cart
     {
+        
         private List<OrderLine> selections = new List<OrderLine>();
 
         public IEnumerable<OrderLine> Selections { get => selections; }
 
-        public Cart AddItem(Game g, int quantity)
+        public Cart AddItem(Game p, int quantity)
         {
-            OrderLine orderLine = selections.Where(e => e.GameId == g.GameId).FirstOrDefault();
+            OrderLine orderLine = selections.FirstOrDefault(e => e.GameId == p.GameId);
             if (orderLine != null)
             {
                 orderLine.Quantity += quantity;
@@ -17,8 +18,8 @@
             {
                 selections.Add(new OrderLine
                 {
-                    GameId = g.GameId,
-                    Game = g,                 
+                    GameId = p.GameId,
+                    Game = p,
                     Quantity = quantity
                 });
             }

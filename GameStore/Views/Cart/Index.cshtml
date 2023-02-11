@@ -26,7 +26,7 @@
                     <div class="row mt-1">
                         <div class="col">@line.Quantity</div>
                         <div class="col">@line.Game.Name</div> 
-                        <div class="col text-right">@line.Game.Price</div>
+                        <div class="col text-right">@line.Game.Price.ToString("f2")</div>
                         <div class="col text-right">$@((line.Game.Price * line.Quantity).ToString("f2"))</div>
                         <div class="col">
                             <form asp-action="RemoveFromCart">
